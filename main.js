@@ -49,7 +49,8 @@ const SOLAR_STORAGE_KEY = 'sajuSolarTerms.v1';
 hydrateSolarCache();
 
 const nowUtcMs = Date.now();
-TODAY_LABEL.textContent = `오늘 ${formatKstDate(nowUtcMs)} • ${getSexagenaryDay(nowUtcMs)} 일진 • ${getCurrentSolarTermLabel(nowUtcMs)}`;
+updateTodayLabel();
+setInterval(updateTodayLabel, 60000);
 initTheme();
 initBirthInput();
 
@@ -151,6 +152,12 @@ function formatKstTime(utcMs) {
   const hours = String(d.getUTCHours()).padStart(2, '0');
   const minutes = String(d.getUTCMinutes()).padStart(2, '0');
   return `${hours}:${minutes}`;
+}
+
+function updateTodayLabel() {
+  if (!TODAY_LABEL) return;
+  const now = Date.now();
+  TODAY_LABEL.textContent = `오늘 ${formatKstDate(now)} • ${getSexagenaryDay(now)} 일진 • ${getCurrentSolarTermLabel(now)}`;
 }
 
 function formatDateKey(utcMs) {
