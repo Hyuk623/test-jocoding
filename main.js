@@ -801,6 +801,8 @@ function setupDownload() {
       }
       await new Promise((resolve) => requestAnimationFrame(resolve));
       const rect = target.getBoundingClientRect();
+      const captureWidth = Math.ceil(target.scrollWidth || rect.width);
+      const captureHeight = Math.ceil(target.scrollHeight || rect.height);
       const scale = 1;
       const canvas = await window.html2canvas(target, {
         backgroundColor: '#ffffff',
@@ -809,10 +811,12 @@ function setupDownload() {
         removeContainer: true,
         logging: false,
         foreignObjectRendering: true,
-        width: Math.ceil(rect.width),
-        height: Math.ceil(rect.height),
-        windowWidth: document.documentElement.clientWidth,
-        windowHeight: document.documentElement.clientHeight
+        width: captureWidth,
+        height: captureHeight,
+        windowWidth: captureWidth,
+        windowHeight: captureHeight,
+        scrollX: -window.scrollX,
+        scrollY: -window.scrollY
       });
       const ctx = canvas.getContext('2d');
       if (ctx) {
