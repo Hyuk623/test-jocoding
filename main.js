@@ -786,7 +786,7 @@ function setupDownload() {
       return;
     }
 
-    const target = document.getElementById('resultSnapshot');
+    const target = document.getElementById('results');
     if (!target) return;
 
     button.disabled = true;
@@ -795,6 +795,7 @@ function setupDownload() {
 
     try {
       document.body.classList.add('capture-mode');
+      button.style.visibility = 'hidden';
       if (document.fonts && document.fonts.ready) {
         await document.fonts.ready;
       }
@@ -832,6 +833,7 @@ function setupDownload() {
       alert('이미지 생성에 실패했습니다. 다시 시도해 주세요.');
     } finally {
       document.body.classList.remove('capture-mode');
+      button.style.visibility = '';
       button.disabled = false;
       button.textContent = originalText;
     }
