@@ -41,6 +41,7 @@ const TERM_FORM = document.getElementById('termTestForm');
 const TERM_RESULT = document.getElementById('termTestResult');
 const THEME_TOGGLE = document.getElementById('themeToggle');
 const BIRTH_WARNING = document.getElementById('birthWarning');
+const BIRTH_INPUT = FORM ? FORM.querySelector('input[name=\"birthDate\"]') : null;
 const THEME_KEY = 'sajuTheme.v1';
 const SOLAR_CACHE = new Map();
 const SOLAR_STORAGE_KEY = 'sajuSolarTerms.v1';
@@ -50,6 +51,7 @@ hydrateSolarCache();
 const nowUtcMs = Date.now();
 TODAY_LABEL.textContent = `오늘 ${formatKstDate(nowUtcMs)} • ${getSexagenaryDay(nowUtcMs)} 일진 • ${getCurrentSolarTermLabel(nowUtcMs)}`;
 initTheme();
+initBirthInput();
 
 FORM.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -199,6 +201,28 @@ function initTheme() {
   const shouldDark = saved ? saved === 'dark' : prefersDark;
   document.body.classList.toggle('dark-mode', shouldDark);
   THEME_TOGGLE.textContent = shouldDark ? '화이트 모드' : '다크 모드';
+}
+
+function initBirthInput() {
+  if (!BIRTH_INPUT) return;
+  BIRTH_INPUT.addEventListener('input', () => {
+    const raw = BIRTH_INPUT.value.replace(/\D/g, '').slice(0, 8);
+    const parts = [];
+    if (raw.length >= 4) {
+      parts.push(raw.slice(0, 4));
+      if (raw.length >= 6) {
+        parts.push(raw.slice(4, 6));
+        if (raw.length > 6) {
+          parts.push(raw.slice(6, 8));
+        }
+      } else if (raw.length > 4) {
+        parts.push(raw.slice(4));
+      }
+    } else {
+      parts.push(raw);
+    }
+    BIRTH_INPUT.value = parts.join('-');
+  });
 }
 
 function buildPillars(birthUtcMs) {

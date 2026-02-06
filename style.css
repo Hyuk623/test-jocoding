@@ -15,17 +15,17 @@
 }
 
 body.dark-mode {
-  --bg: #161514;
-  --bg-deep: #1b1917;
-  --ink: #f3efe9;
-  --muted: #b2a89e;
-  --accent: #e08a5b;
-  --accent-dark: #f1a47c;
-  --card: #1e1c1a;
-  --line: rgba(243, 239, 233, 0.1);
-  --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-  --input-bg: #25221f;
-  --hero-bg: linear-gradient(135deg, #2a2521 0%, #1f1c19 60%, #1a1714 100%);
+  --bg: #0f0f10;
+  --bg-deep: #141416;
+  --ink: #f8f4ef;
+  --muted: #d2c7bc;
+  --accent: #f0a66b;
+  --accent-dark: #f6c19a;
+  --card: #1b1b1f;
+  --line: rgba(248, 244, 239, 0.18);
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  --input-bg: #232327;
+  --hero-bg: linear-gradient(135deg, #2d2724 0%, #1f1b19 55%, #151312 100%);
 }
 
 * {
@@ -41,7 +41,7 @@ body {
 }
 
 body.dark-mode {
-  background: radial-gradient(circle at top left, var(--bg) 0%, var(--bg-deep) 45%, #12110f 100%);
+  background: radial-gradient(circle at top left, var(--bg) 0%, var(--bg-deep) 45%, #0b0b0c 100%);
 }
 
 body.capture-mode {
