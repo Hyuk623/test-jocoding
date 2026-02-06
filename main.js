@@ -39,6 +39,9 @@ const RESULTS = document.getElementById('results');
 const TODAY_LABEL = document.getElementById('todayLabel');
 const TERM_FORM = document.getElementById('termTestForm');
 const TERM_RESULT = document.getElementById('termTestResult');
+const THEME_TOGGLE = document.getElementById('themeToggle');
+const BIRTH_WARNING = document.getElementById('birthWarning');
+const THEME_KEY = 'sajuTheme.v1';
 const SOLAR_CACHE = new Map();
 const SOLAR_STORAGE_KEY = 'sajuSolarTerms.v1';
 
@@ -46,6 +49,7 @@ hydrateSolarCache();
 
 const nowUtcMs = Date.now();
 TODAY_LABEL.textContent = `오늘 ${formatKstDate(nowUtcMs)} • ${getSexagenaryDay(nowUtcMs)} 일진 • ${getCurrentSolarTermLabel(nowUtcMs)}`;
+initTheme();
 
 FORM.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -58,7 +62,13 @@ FORM.addEventListener('submit', (event) => {
 
   if (!birthDate || !birthTime) return;
 
-  const [year, month, day] = birthDate.split('-').map(Number);
+  const parsedBirth = parseBirthDate(birthDate.toString());
+  if (!parsedBirth.valid) {
+    showBirthWarning(parsedBirth.message);
+    return;
+  }
+  showBirthWarning('');
+  const { year, month, day } = parsedBirth;
   const [hour, minute] = birthTime.split(':').map(Number);
   const birthUtcMs = kstToUtcMs(year, month - 1, day, hour, minute || 0);
 
@@ -80,6 +90,14 @@ FORM.addEventListener('submit', (event) => {
   });
   setupDownload();
 });
+
+if (THEME_TOGGLE) {
+  THEME_TOGGLE.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark-mode');
+    THEME_TOGGLE.textContent = isDark ? '화이트 모드' : '다크 모드';
+    localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+  });
+}
 
 if (TERM_FORM) {
   TERM_FORM.addEventListener('submit', (event) => {
@@ -145,6 +163,42 @@ function formatDateKey(utcMs) {
 function formatLocalDateTime(utcMs) {
   const d = new Date(utcMs);
   return d.toLocaleString('ko-KR', { timeZoneName: 'short' });
+}
+
+function parseBirthDate(input) {
+  const value = input.trim();
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) {
+    return { valid: false, message: '생년월일은 YYYY-MM-DD 형식으로 입력해 주세요.' };
+  }
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (year < 1900 || year > 2100) {
+    return { valid: false, message: '연도는 1900~2100 범위로 입력해 주세요.' };
+  }
+  if (month < 1 || month > 12) {
+    return { valid: false, message: '월은 01~12 범위로 입력해 주세요.' };
+  }
+  const maxDay = new Date(year, month, 0).getDate();
+  if (day < 1 || day > maxDay) {
+    return { valid: false, message: '일자는 해당 월의 유효한 날짜로 입력해 주세요.' };
+  }
+  return { valid: true, year, month, day };
+}
+
+function showBirthWarning(message) {
+  if (!BIRTH_WARNING) return;
+  BIRTH_WARNING.textContent = message;
+}
+
+function initTheme() {
+  if (!THEME_TOGGLE) return;
+  const saved = localStorage.getItem(THEME_KEY);
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const shouldDark = saved ? saved === 'dark' : prefersDark;
+  document.body.classList.toggle('dark-mode', shouldDark);
+  THEME_TOGGLE.textContent = shouldDark ? '화이트 모드' : '다크 모드';
 }
 
 function buildPillars(birthUtcMs) {
@@ -716,9 +770,12 @@ function setupDownload() {
     button.textContent = '이미지 생성 중...';
 
     try {
+      document.body.classList.add('capture-mode');
+      await new Promise((resolve) => requestAnimationFrame(resolve));
       const canvas = await window.html2canvas(target, {
-        backgroundColor: '#f5efe6',
-        scale: 2
+        backgroundColor: '#fffaf2',
+        scale: 2,
+        useCORS: true
       });
       const dataUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
@@ -733,6 +790,7 @@ function setupDownload() {
     } catch (error) {
       alert('이미지 생성에 실패했습니다. 다시 시도해 주세요.');
     } finally {
+      document.body.classList.remove('capture-mode');
       button.disabled = false;
       button.textContent = originalText;
     }

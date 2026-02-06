@@ -10,6 +10,22 @@
   --card: #fffaf2;
   --line: rgba(31, 27, 22, 0.1);
   --shadow: 0 20px 60px rgba(31, 27, 22, 0.12);
+  --input-bg: #fff;
+  --hero-bg: linear-gradient(135deg, #fff5e3 0%, #f7e7d2 60%, #f4ddc3 100%);
+}
+
+body.dark-mode {
+  --bg: #161514;
+  --bg-deep: #1b1917;
+  --ink: #f3efe9;
+  --muted: #b2a89e;
+  --accent: #e08a5b;
+  --accent-dark: #f1a47c;
+  --card: #1e1c1a;
+  --line: rgba(243, 239, 233, 0.1);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  --input-bg: #25221f;
+  --hero-bg: linear-gradient(135deg, #2a2521 0%, #1f1c19 60%, #1a1714 100%);
 }
 
 * {
@@ -20,8 +36,27 @@ body {
   margin: 0;
   font-family: 'Space Grotesk', sans-serif;
   color: var(--ink);
-  background: radial-gradient(circle at top left, #f8f1e7 0%, #f2e3d1 45%, #efe0cc 100%);
+  background: radial-gradient(circle at top left, var(--bg) 0%, var(--bg-deep) 45%, #efe0cc 100%);
   min-height: 100vh;
+}
+
+body.dark-mode {
+  background: radial-gradient(circle at top left, var(--bg) 0%, var(--bg-deep) 45%, #12110f 100%);
+}
+
+body.capture-mode {
+  background: #f5efe6;
+}
+
+.capture-mode .grain {
+  display: none;
+}
+
+.capture-mode .result-snapshot {
+  background: #fffaf2;
+  padding: 16px;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
 }
 
 .grain {
@@ -46,7 +81,7 @@ body {
 .hero {
   padding: 36px 32px;
   border-radius: 28px;
-  background: linear-gradient(135deg, #fff5e3 0%, #f7e7d2 60%, #f4ddc3 100%);
+  background: var(--hero-bg);
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
@@ -95,6 +130,10 @@ h1 {
   font-weight: 600;
 }
 
+.theme-toggle {
+  margin-top: 16px;
+}
+
 .card {
   background: var(--card);
   border-radius: 24px;
@@ -130,7 +169,8 @@ select {
   border: 1px solid var(--line);
   font-size: 1rem;
   font-family: inherit;
-  background: #fff;
+  background: var(--input-bg);
+  color: var(--ink);
 }
 
 button {
@@ -167,6 +207,11 @@ button:hover {
   font-size: 0.85rem;
   color: var(--muted);
   margin: 0;
+}
+
+.warning {
+  color: #c23b22;
+  min-height: 18px;
 }
 
 .results {
@@ -275,7 +320,7 @@ button:hover {
 .fortune-card {
   padding: 22px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #fff, #fff6ee);
+  background: linear-gradient(135deg, var(--card), rgba(255, 250, 242, 0.7));
   border: 1px solid var(--line);
 }
 
