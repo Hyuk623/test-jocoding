@@ -468,9 +468,9 @@ function buildGuidance(dominantElements, todayStemBranch, gender, tone, birthUtc
   const toneSet = {
     balanced: {
       summary: [
-        `${dominantElements.join('·')} 기운이 강한 날입니다. 오늘은 속도를 조절하며 핵심에 집중하면 안정적인 성과가 있습니다.`,
-        `${dominantElements.join('·')} 흐름이 또렷합니다. 오늘은 집중할 것과 미룰 것을 분리하면 효율이 높아집니다.`,
-        `${dominantElements.join('·')} 기운이 중심을 잡아줍니다. 중요한 선택은 확신이 들 때 실행하세요.`
+        `${dominantElements.join('·')} 기운이 강한 날입니다. 오늘은 속도를 조절하며 핵심에 집중하면 안정적인 성과가 있습니다. 아침에는 우선순위를 정리하고, 오후에는 확실한 한 가지를 끝내는 흐름이 좋습니다. 무리한 확장보다 지금 가진 자원을 단단히 다지는 것이 이득입니다.`,
+        `${dominantElements.join('·')} 흐름이 또렷합니다. 오늘은 집중할 것과 미룰 것을 분리하면 효율이 높아집니다. 빠르게 처리할 일과 깊이 몰입할 일을 나누면 피로가 줄고 성과가 올라갑니다. 중요한 결정은 정보가 충분할 때 내리면 손해를 줄일 수 있습니다.`,
+        `${dominantElements.join('·')} 기운이 중심을 잡아줍니다. 오늘은 해야 할 것과 하지 말아야 할 것을 분명히 하면 하루가 간결해집니다. 작은 실수를 줄이는 것만으로도 흐름이 안정되고, 마무리의 질이 올라갑니다.`
       ],
       todayEnergy: [
         `현재 일진(${todayStemBranch})은 결단과 정돈의 흐름을 요구합니다. 중요한 선택은 오늘 안에 80% 확신이 들 때 실행하세요.`,
@@ -521,8 +521,8 @@ function buildGuidance(dominantElements, todayStemBranch, gender, tone, birthUtc
     },
     warm: {
       summary: [
-        `${dominantElements.join('·')} 기운이 포근하게 감싸는 날입니다. 오늘은 자신을 다독이면서도 한 걸음씩 나아가면 좋은 흐름이 이어집니다.`,
-        `${dominantElements.join('·')} 기운이 따뜻하게 흐릅니다. 마음의 여유가 있을수록 운이 부드럽게 맞춰집니다.`
+        `${dominantElements.join('·')} 기운이 포근하게 감싸는 날입니다. 오늘은 자신을 다독이면서도 한 걸음씩 나아가면 좋은 흐름이 이어집니다. 완벽을 요구하기보다 ‘가능한 만큼’의 리듬을 유지하면 마음과 결과가 동시에 안정됩니다. 작은 성취를 소중히 여기는 태도가 운을 키웁니다.`,
+        `${dominantElements.join('·')} 기운이 따뜻하게 흐릅니다. 마음의 여유가 있을수록 운이 부드럽게 맞춰집니다. 급한 결정보다는 천천히 정리하는 선택이 더 오래 갑니다. 오늘은 자신을 돌보는 시간이 결국 성과로 이어집니다.`
       ],
       todayEnergy: [
         `오늘 일진(${todayStemBranch})은 마음을 정리해 주는 에너지가 있습니다. 조급하지 않게, 따뜻한 리듬을 유지하세요.`,
@@ -573,8 +573,8 @@ function buildGuidance(dominantElements, todayStemBranch, gender, tone, birthUtc
     },
     sharp: {
       summary: [
-        `${dominantElements.join('·')} 기운이 뚜렷하게 드러나는 날입니다. 오늘은 미루지 말고 핵심부터 처리해야 결과가 나옵니다.`,
-        `${dominantElements.join('·')} 흐름이 강하게 잡힙니다. 결정은 빠르게, 실행은 단호하게 하세요.`
+        `${dominantElements.join('·')} 기운이 뚜렷하게 드러나는 날입니다. 오늘은 미루지 말고 핵심부터 처리해야 결과가 나옵니다. 애매한 일을 정리하고 확실한 것부터 끝내면 속도와 성과가 동시에 확보됩니다. 시간을 지키는 것이 곧 운을 지키는 날입니다.`,
+        `${dominantElements.join('·')} 흐름이 강하게 잡힙니다. 결정은 빠르게, 실행은 단호하게 하세요. 미룰수록 비용이 커지고, 정리할수록 길이 열립니다. 오늘은 ‘과감한 정리’가 가장 큰 이득입니다.`
       ],
       todayEnergy: [
         `오늘 일진(${todayStemBranch})은 결단을 요구합니다. 애매하면 손해입니다. 우선순위를 확실히 정하세요.`,
