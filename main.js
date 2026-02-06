@@ -311,7 +311,7 @@ function getCurrentSolarTermLabel(utcMs) {
     }
   }
 
-  return `${selected.name} (${formatKstDate(selected.time)} ${formatKstTime(selected.time)} KST) 기준`;
+  return `${selected.name} (${formatKstDate(selected.time)}) 기준`;
 }
 
 function getDayPillar(utcMs) {
