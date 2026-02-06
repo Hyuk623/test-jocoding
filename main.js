@@ -90,7 +90,6 @@ FORM.addEventListener('submit', (event) => {
   RESULTS.querySelectorAll('.card, .pillar-card, .fortune-card').forEach((el) => {
     el.classList.add('fade-in');
   });
-  setupDownload();
 });
 
 if (THEME_TOGGLE) {
@@ -404,13 +403,6 @@ function renderResults({ name, birthUtcMs, pillars, todayStemBranch, elementBala
       </section>
     </div>
 
-    <section class="card">
-      <h2>결과 공유</h2>
-      <div class="share-actions">
-        <button type="button" class="button-secondary" id="downloadImage">결과 이미지 저장</button>
-        <p class="share-note">이미지는 다운로드되어 앨범에서 공유할 수 있습니다.</p>
-      </div>
-    </section>
   `;
 }
 
@@ -767,71 +759,6 @@ function buildSanityMessage(term) {
     return `체크: ${actualMonth}월 ${actualDay}일로 계산되었습니다 (대략 ${expectedMonth}월 전후 범위 내).`;
   }
   return `주의: 예상 월(${expectedMonth}월)과 차이가 큽니다. 계산값을 다시 확인하세요.`;
-}
-
-function setupDownload() {
-  const button = document.getElementById('downloadImage');
-  if (!button || button.dataset.bound === 'true') return;
-  button.dataset.bound = 'true';
-
-  button.addEventListener('click', async () => {
-    if (!window.html2canvas) {
-      alert('이미지 생성 도구를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.');
-      return;
-    }
-
-    const target = document.body;
-    if (!target) return;
-
-    button.disabled = true;
-    const originalText = button.textContent;
-    button.textContent = '이미지 생성 중...';
-
-    try {
-      document.body.classList.add('capture-mode');
-      button.style.visibility = 'hidden';
-      if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready;
-      }
-      await new Promise((resolve) => requestAnimationFrame(resolve));
-      const rect = target.getBoundingClientRect();
-      const captureWidth = Math.ceil(document.documentElement.scrollWidth || target.scrollWidth || rect.width);
-      const captureHeight = Math.ceil(document.documentElement.scrollHeight || target.scrollHeight || rect.height);
-      const scale = Math.min(2, Math.max(1, window.devicePixelRatio));
-      const canvas = await window.html2canvas(target, {
-        backgroundColor: '#ffffff',
-        scale,
-        useCORS: true,
-        allowTaint: true,
-        removeContainer: true,
-        logging: false,
-        width: captureWidth,
-        height: captureHeight,
-        windowWidth: captureWidth,
-        windowHeight: captureHeight,
-        scrollX: 0,
-        scrollY: 0
-      });
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-      }
-      const dataUrl = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.href = dataUrl;
-      link.download = `saju-today-${formatDateKey(Date.now())}.png`;
-      link.click();
-
-    } catch (error) {
-      alert('이미지 생성에 실패했습니다. 다시 시도해 주세요.');
-    } finally {
-      document.body.classList.remove('capture-mode');
-      button.style.visibility = '';
-      button.disabled = false;
-      button.textContent = originalText;
-    }
-  });
 }
 
 function hydrateSolarCache() {
