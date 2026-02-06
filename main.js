@@ -780,7 +780,7 @@ function setupDownload() {
       return;
     }
 
-    const target = document.querySelector('main.page') || document.body;
+    const target = document.body;
     if (!target) return;
 
     button.disabled = true;
@@ -795,22 +795,22 @@ function setupDownload() {
       }
       await new Promise((resolve) => requestAnimationFrame(resolve));
       const rect = target.getBoundingClientRect();
-      const captureWidth = Math.ceil(target.scrollWidth || rect.width);
-      const captureHeight = Math.ceil(target.scrollHeight || rect.height);
-      const scale = 1;
+      const captureWidth = Math.ceil(document.documentElement.scrollWidth || target.scrollWidth || rect.width);
+      const captureHeight = Math.ceil(document.documentElement.scrollHeight || target.scrollHeight || rect.height);
+      const scale = Math.min(2, Math.max(1, window.devicePixelRatio));
       const canvas = await window.html2canvas(target, {
         backgroundColor: '#ffffff',
         scale,
         useCORS: true,
+        allowTaint: true,
         removeContainer: true,
         logging: false,
-        foreignObjectRendering: true,
         width: captureWidth,
         height: captureHeight,
         windowWidth: captureWidth,
         windowHeight: captureHeight,
-        scrollX: -window.scrollX,
-        scrollY: -window.scrollY
+        scrollX: 0,
+        scrollY: 0
       });
       const ctx = canvas.getContext('2d');
       if (ctx) {

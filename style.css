@@ -103,6 +103,11 @@ body.capture-mode {
   filter: none !important;
 }
 
+.capture-mode * {
+  mix-blend-mode: normal !important;
+  filter: none !important;
+}
+
 .capture-mode .subtitle,
 .capture-mode .hint,
 .capture-mode .list,
