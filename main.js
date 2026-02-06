@@ -410,9 +410,6 @@ function renderResults({ name, birthUtcMs, pillars, todayStemBranch, elementBala
         <button type="button" class="button-secondary" id="downloadImage">결과 이미지 저장</button>
         <p class="share-note">이미지는 다운로드되어 앨범에서 공유할 수 있습니다.</p>
       </div>
-      <div class="preview" id="imagePreview" hidden>
-        <img alt="운세 결과 미리보기" />
-      </div>
     </section>
   `;
 }
@@ -774,9 +771,6 @@ function buildSanityMessage(term) {
 
 function setupDownload() {
   const button = document.getElementById('downloadImage');
-  const preview = document.getElementById('imagePreview');
-  const previewImg = preview ? preview.querySelector('img') : null;
-
   if (!button || button.dataset.bound === 'true') return;
   button.dataset.bound = 'true';
 
@@ -829,10 +823,6 @@ function setupDownload() {
       link.download = `saju-today-${formatDateKey(Date.now())}.png`;
       link.click();
 
-      if (preview && previewImg) {
-        previewImg.src = dataUrl;
-        preview.hidden = false;
-      }
     } catch (error) {
       alert('이미지 생성에 실패했습니다. 다시 시도해 주세요.');
     } finally {

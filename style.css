@@ -18,11 +18,11 @@ body.dark-mode {
   --bg: #0f0f10;
   --bg-deep: #141416;
   --ink: #f8f4ef;
-  --muted: #e1d6ca;
+  --muted: #f0e6dc;
   --accent: #f0a66b;
   --accent-dark: #f6c19a;
   --card: #1b1b1f;
-  --line: rgba(248, 244, 239, 0.18);
+  --line: rgba(248, 244, 239, 0.28);
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
   --input-bg: #232327;
   --hero-bg: linear-gradient(135deg, #2d2724 0%, #1f1b19 55%, #151312 100%);
@@ -45,6 +45,34 @@ body {
 
 body.dark-mode {
   background: radial-gradient(circle at top left, var(--bg) 0%, var(--bg-deep) 45%, #0b0b0c 100%);
+}
+
+body.dark-mode .grain {
+  opacity: 0.02;
+}
+
+body.dark-mode .today {
+  background: rgba(248, 244, 239, 0.14);
+  color: var(--ink);
+}
+
+body.dark-mode .button-secondary {
+  background: #2a2a2f;
+  color: var(--ink);
+  border: 1px solid rgba(248, 244, 239, 0.3);
+}
+
+body.dark-mode .meta-item,
+body.dark-mode .pillar-card,
+body.dark-mode .fortune-item,
+body.dark-mode .preview {
+  background: #222228;
+  border: 1px solid rgba(248, 244, 239, 0.22);
+}
+
+body.dark-mode .test-result {
+  background: rgba(34, 34, 40, 0.7);
+  color: var(--muted);
 }
 
 body.capture-mode {
