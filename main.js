@@ -799,13 +799,25 @@ function setupDownload() {
         await document.fonts.ready;
       }
       await new Promise((resolve) => requestAnimationFrame(resolve));
-      const scale = Math.min(4, Math.max(2, window.devicePixelRatio * 2));
+      const rect = target.getBoundingClientRect();
+      const scale = 1;
       const canvas = await window.html2canvas(target, {
-        backgroundColor: '#fffaf2',
+        backgroundColor: '#ffffff',
         scale,
         useCORS: true,
-        removeContainer: true
+        removeContainer: true,
+        logging: false,
+        foreignObjectRendering: true,
+        width: Math.ceil(rect.width),
+        height: Math.ceil(rect.height),
+        windowWidth: document.documentElement.clientWidth,
+        windowHeight: document.documentElement.clientHeight
       });
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+      }
       const dataUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.href = dataUrl;
