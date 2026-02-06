@@ -795,11 +795,16 @@ function setupDownload() {
 
     try {
       document.body.classList.add('capture-mode');
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
       await new Promise((resolve) => requestAnimationFrame(resolve));
+      const scale = Math.min(4, Math.max(2, window.devicePixelRatio * 2));
       const canvas = await window.html2canvas(target, {
         backgroundColor: '#fffaf2',
-        scale: 2,
-        useCORS: true
+        scale,
+        useCORS: true,
+        removeContainer: true
       });
       const dataUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
