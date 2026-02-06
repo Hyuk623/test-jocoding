@@ -780,7 +780,7 @@ function setupDownload() {
       return;
     }
 
-    const target = document.getElementById('results');
+    const target = document.querySelector('main.page') || document.body;
     if (!target) return;
 
     button.disabled = true;
