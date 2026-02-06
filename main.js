@@ -40,6 +40,9 @@ const TODAY_LABEL = document.getElementById('todayLabel');
 const TERM_FORM = document.getElementById('termTestForm');
 const TERM_RESULT = document.getElementById('termTestResult');
 const SOLAR_CACHE = new Map();
+const SOLAR_STORAGE_KEY = 'sajuSolarTerms.v1';
+
+hydrateSolarCache();
 
 const nowUtcMs = Date.now();
 TODAY_LABEL.textContent = `오늘 ${formatKstDate(nowUtcMs)} • ${getSexagenaryDay(nowUtcMs)} 일진 • ${getCurrentSolarTermLabel(nowUtcMs)}`;
@@ -599,6 +602,7 @@ function getSolarTermsForYear(year) {
   }));
 
   SOLAR_CACHE.set(year, terms);
+  persistSolarCache();
   return terms;
 }
 
@@ -733,4 +737,38 @@ function setupDownload() {
       button.textContent = originalText;
     }
   });
+}
+
+function hydrateSolarCache() {
+  const raw = localStorage.getItem(SOLAR_STORAGE_KEY);
+  if (!raw) return;
+  try {
+    const parsed = JSON.parse(raw);
+    Object.entries(parsed).forEach(([yearKey, terms]) => {
+      if (!Array.isArray(terms)) return;
+      const normalized = terms.map((term) => ({
+        ...term,
+        time: Number(term.time)
+      })).filter((term) => Number.isFinite(term.time));
+      SOLAR_CACHE.set(Number(yearKey), normalized);
+    });
+  } catch (error) {
+    localStorage.removeItem(SOLAR_STORAGE_KEY);
+  }
+}
+
+function persistSolarCache() {
+  const payload = {};
+  SOLAR_CACHE.forEach((terms, year) => {
+    payload[year] = terms.map((term) => ({
+      key: term.key,
+      name: term.name,
+      longitude: term.longitude,
+      monthIndex: term.monthIndex,
+      guessMonth: term.guessMonth,
+      guessDay: term.guessDay,
+      time: term.time
+    }));
+  });
+  localStorage.setItem(SOLAR_STORAGE_KEY, JSON.stringify(payload));
 }
